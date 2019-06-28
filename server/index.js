@@ -12,7 +12,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 
-app.use(require('./routes/users.js'));
+app.use(require('./routes/user.js'));
 
 
 app.delete('/user/:id', function(req, res) {
