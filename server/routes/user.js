@@ -14,7 +14,7 @@ app.get('/user', function(req, res) {
     let limit = req.query.limit || 5
     limit = Number(limit)
 
-    User.find({}, 'name email role status google img')
+    User.find({ status: true }, 'name email role status google img')
         .skip(from)
         .limit(limit)
         .exec((err, users) => {
@@ -25,7 +25,7 @@ app.get('/user', function(req, res) {
                 });
             }
 
-            User.count({}, (err, count) => {
+            User.count({ status: true }, (err, count) => {
                 res.json({
                     ok: true,
                     users,
@@ -91,10 +91,18 @@ app.put('/user/:id', function(req, res) {
     })
 })
 
-app.get('/delete/:id', function(req, res) {
+app.delete('/user/:id', function(req, res) {
     let id = req.params.id;
 
-    User.findByIdAndRemove(id, (err, deletedUser) => {
+    let options = {
+        new: true,
+    }
+
+    let setStatus = {
+        status: false
+    }
+
+    User.findByIdAndUpdate(id, setStatus, options, (err, userDB) => {
         if (err) {
             return res.status(400).json({
                 ok: false,
@@ -102,7 +110,7 @@ app.get('/delete/:id', function(req, res) {
             });
         }
 
-        if (deletedUser === null) {
+        if (userDB === null) {
             return res.status(400).json({
                 ok: false,
                 error: {
@@ -110,6 +118,11 @@ app.get('/delete/:id', function(req, res) {
                 },
             });
         }
+
+        res.json({
+            ok: true,
+            user: userDB,
+        })
     })
 
 

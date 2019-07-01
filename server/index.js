@@ -20,11 +20,12 @@ app.delete('/user/:id', function(req, res) {
     res.json({ id })
 })
 
-mongoose.connect('mongodb://localhost:27017/cofee', { useNewUrlParser: true }, (err, res) => {
+mongoose.connect(process.env.URLDB, { useNewUrlParser: true, useCreateIndex: true, },
+    (err, res) => {
 
-    if (err) throw err;
-    console.log('DB online');
-});
+        if (err) throw err;
+        console.log('DB online');
+    });
 
 app.listen(process.env.PORT, () => {
     console.log('Listening on port ', process.env.PORT)
