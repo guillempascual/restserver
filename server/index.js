@@ -12,8 +12,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 
-app.use(require('./routes/user.js'));
-
+app.use(require('./routes/index'));
 
 app.delete('/user/:id', function(req, res) {
     let id = req.params.id;

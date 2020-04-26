@@ -36,12 +36,6 @@ app.get('/user', function(req, res) {
         })
 })
 
-
-app.get('/user/:id', function(req, res) {
-    let id = req.params.id;
-    res.json({ id })
-})
-
 app.post('/user', function(req, res) {
 
     let body = req.body;
